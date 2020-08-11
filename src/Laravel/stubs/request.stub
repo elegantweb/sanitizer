@@ -1,0 +1,41 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Elegant\Sanitizer\Laravel\SanitizesInput;
+
+class DummyClass extends FormRequest
+{
+    use SanitizesInput;
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return false;
+    }
+
+    /**
+     * Validation rules to be applied to the input.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [];
+    }
+
+    /**
+     * Filters to be applied to the input.
+     *
+     * @return array
+     */
+    public function filters()
+    {
+        return [];
+    }
+}
