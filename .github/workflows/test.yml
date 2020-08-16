@@ -24,10 +24,6 @@ jobs:
         with:
           path: vendor
           key: php-${{ matrix.php }}-laravel-${{ matrix.laravel }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            php-${{ matrix.php }}-laravel-${{ matrix.laravel }}-
-            php-${{ matrix.php }}-
-            php-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
