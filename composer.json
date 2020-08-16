@@ -40,5 +40,8 @@
                 "Sanitizer": "Elegant\\Sanitizer\\Laravel\\Facade"
             }
         }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }
