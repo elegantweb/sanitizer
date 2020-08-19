@@ -18,10 +18,10 @@ class FactoryTest extends TestCase
         $data = [
             'name' => 'TEST',
         ];
-        $rules = [
+        $filters = [
             'name' => 'hash',
         ];
-        $newData = $factory->make($data, $rules)->sanitize();
+        $newData = $factory->make($data, $filters)->sanitize();
 
         $this->assertEquals(sha1('TEST'), $newData['name']);
     }
@@ -34,10 +34,10 @@ class FactoryTest extends TestCase
         $data = [
             'name' => 'TEST',
         ];
-        $rules = [
+        $filters = [
             'name' => 'custom',
         ];
-        $newData = $factory->make($data, $rules)->sanitize();
+        $newData = $factory->make($data, $filters)->sanitize();
 
         $this->assertEquals('TESTTEST', $newData['name']);
     }
@@ -52,10 +52,10 @@ class FactoryTest extends TestCase
         $data = [
             'name' => 'TEST',
         ];
-        $rules = [
+        $filters = [
             'name' => 'trim',
         ];
-        $newData = $factory->make($data, $rules)->sanitize();
+        $newData = $factory->make($data, $filters)->sanitize();
 
         $this->assertEquals(sha1('TEST'), $newData['name']);
     }

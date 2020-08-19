@@ -14,10 +14,10 @@ class TrimTest extends TestCase
         $data = [
             'name' => '  Test  ',
         ];
-        $rules = [
+        $filters = [
             'name' => 'trim',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('Test', $data['name']);
     }

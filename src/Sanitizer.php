@@ -24,14 +24,14 @@ class Sanitizer
      *
      * @var array
      */
-    protected $rules;
+    protected $filters;
 
     /**
      * Available filters as $name => $classPath.
      *
      * @var array
      */
-    protected $filters = [
+    protected $availableFilters = [
         'capitalize' => \Elegant\Sanitizer\Filters\Capitalize::class,
         'cast' => \Elegant\Sanitizer\Filters\Cast::class,
         'escape' => \Elegant\Sanitizer\Filters\EscapeHTML::class,
@@ -47,12 +47,12 @@ class Sanitizer
      * Create a new sanitizer instance.
      *
      * @param array $data
-     * @param array $rules Rules to be applied to each data attribute
+     * @param array $filters Filters to be applied to each data attribute
      */
-    public function __construct(array $data, array $rules)
+    public function __construct(array $data, array $filters)
     {
         $this->data = $data;
-        $this->rules = $this->parseRules($rules);
+        $this->filters = $this->parseFilters($filters);
     }
 
     /**
@@ -63,66 +63,66 @@ class Sanitizer
      */
     public function addExtensions(array $extensions)
     {
-        $this->filters = array_merge($this->filters, $extensions);
+        $this->availableFilters = array_merge($this->availableFilters, $extensions);
     }
 
     /**
-     * Parse a rules array.
+     * Parse a filter array.
      *
-     * @param array $rules
+     * @param array $filters
      * @return array
      */
-    protected function parseRules(array $rules)
+    protected function parseFilters(array $filters)
     {
-        $parsedRules = [];
+        $parsed = [];
 
-        $rawRules = (new ValidationRuleParser($this->data))->explode($rules);
+        $rawRules = (new ValidationRuleParser($this->data))->explode($filters);
 
         foreach ($rawRules->rules as $attribute => $attributeRules) {
             foreach (array_filter($attributeRules) as $attributeRule) {
-                $parsedRules[$attribute][] = $this->parseRule($attributeRule);
+                $parsed[$attribute][] = $this->parseFilter($attributeRule);
             }
         }
 
-        return $parsedRules;
+        return $parsed;
     }
 
     /**
-     * Parse a rule.
+     * Parse a filter.
      *
-     * @param string|Closure $rule
-     * @throws InvalidArgumentException for unsupported rule type
+     * @param string|Closure $filter
+     * @throws InvalidArgumentException for unsupported filter type
      * @return array|Closure
      */
-    protected function parseRule($rule)
+    protected function parseFilter($filter)
     {
-        if (is_string($rule)) {
-            return $this->parseRuleString($rule);
-        } elseif ($rule instanceof ClosureValidationRule) {
-            return $rule->callback;
+        if (is_string($filter)) {
+            return $this->parseFilterString($filter);
+        } elseif ($filter instanceof ClosureValidationRule) {
+            return $filter->callback;
         } else {
-            throw new InvalidArgumentException("Unsupported rule type.");
+            throw new InvalidArgumentException("Unsupported filter type.");
         }
     }
 
     /**
-     * Parse a rule string formatted as filterName:option1, option2 into an array formatted as [name => filterName, options => [option1, option2]]
+     * Parse a filter string formatted as filterName:option1, option2 into an array formatted as [name => filterName, options => [option1, option2]]
      *
-     * @param string $rule Formatted as 'filterName:option1, option2' or just 'filterName'
-     * @throws InvalidArgumentException for empty rule string
+     * @param string $filter Formatted as 'filterName:option1, option2' or just 'filterName'
+     * @throws InvalidArgumentException for empty filter string
      * @return array Formatted as [name => filterName, options => [option1, option2]]
      */
-    protected function parseRuleString($rule)
+    protected function parseFilterString($filter)
     {
-        if ('' == $rule) {
-            throw new InvalidArgumentException("Invalid rule string.");
+        if ('' == $filter) {
+            throw new InvalidArgumentException("Invalid filter string.");
         }
 
-        if (strpos($rule, ':') !== false) {
-            list($name, $options) = explode(':', $rule, 2);
+        if (strpos($filter, ':') !== false) {
+            list($name, $options) = explode(':', $filter, 2);
             $options = array_map('trim', explode(',', $options));
         } else {
-            $name = $rule;
+            $name = $filter;
             $options = [];
         }
 
@@ -135,25 +135,25 @@ class Sanitizer
     /**
      * Apply the given filter to the value.
      *
-     * @param string|Closure $rule
+     * @param string|Closure $filter
      * @param mixed $value
      * @return mixed
      */
-    protected function applyFilter($rule, $value)
+    protected function applyFilter($filter, $value)
     {
-        if ($rule instanceof Closure) {
-            return call_user_func($rule, $value);
+        if ($filter instanceof Closure) {
+            return call_user_func($filter, $value);
         }
 
-        $name = $rule['name'];
-        $options = $rule['options'];
+        $name = $filter['name'];
+        $options = $filter['options'];
 
         // If the filter does not exist, throw an Exception:
-        if (!isset($this->filters[$name])) {
+        if (!isset($this->availableFilters[$name])) {
             throw new InvalidArgumentException("Filter [$name] not found.");
         }
 
-        $filter = $this->filters[$name];
+        $filter = $this->availableFilters[$name];
 
         if ($filter instanceof Closure) {
             return call_user_func_array($filter, [$value, $options]);
@@ -167,14 +167,14 @@ class Sanitizer
     /**
      * Apply the given filters to the value.
      *
-     * @param string|Closure $rule
+     * @param string|Closure $filter
      * @param mixed $value
      * @return mixed
      */
-    protected function applyFilters(array $rules, $value)
+    protected function applyFilters(array $filters, $value)
     {
-        foreach ($rules as $rule)
-            $value = $this->applyFilter($rule, $value);
+        foreach ($filters as $filter)
+            $value = $this->applyFilter($filter, $value);
 
         return $value;
     }
@@ -188,9 +188,9 @@ class Sanitizer
     {
         $sanitized = $this->data;
 
-        foreach ($this->rules as $attr => $rules) {
+        foreach ($this->filters as $attr => $filters) {
             if (Arr::has($sanitized, $attr)) {
-                Arr::set($sanitized, $attr, $this->applyFilters($rules, Arr::get($sanitized, $attr)));
+                Arr::set($sanitized, $attr, $this->applyFilters($filters, Arr::get($sanitized, $attr)));
             }
         }
 

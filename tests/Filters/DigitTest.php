@@ -14,10 +14,10 @@ class DigitTest extends TestCase
         $data = [
             'name' => '+08(096)90-123-45q',
         ];
-        $rules = [
+        $filters = [
             'name' => 'digit',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('080969012345', $data['name']);
     }
@@ -27,10 +27,10 @@ class DigitTest extends TestCase
         $data = [
             'name' => 'Qwe-rty!:)',
         ];
-        $rules = [
+        $filters = [
             'name' => 'digit',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('', $data['name']);
     }

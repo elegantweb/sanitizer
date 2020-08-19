@@ -13,9 +13,9 @@ trait SanitizesData
      * @param array $data
      * @return array
      */
-    public function sanitize(array $data, array $rules)
+    public function sanitize(array $data, array $filters)
     {
-        $sanitizer = new Sanitizer($data, $rules);
+        $sanitizer = new Sanitizer($data, $filters);
 
         return $sanitizer->sanitize();
     }

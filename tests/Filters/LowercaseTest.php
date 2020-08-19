@@ -14,10 +14,10 @@ class LowercaseTest extends TestCase
         $data = [
             'name' => 'HellO EverYboDy',
         ];
-        $rules = [
+        $filters = [
             'name' => 'lowercase',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('hello everybody', $data['name']);
     }
@@ -27,10 +27,10 @@ class LowercaseTest extends TestCase
         $data = [
             'name' => 'Τάχιστη αλώπηξ',
         ];
-        $rules = [
+        $filters = [
             'name' => 'lowercase',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('τάχιστη αλώπηξ', $data['name']);
     }

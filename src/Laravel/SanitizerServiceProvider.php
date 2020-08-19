@@ -3,11 +3,13 @@
 namespace Elegant\Sanitizer\Laravel;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use Nuwave\Lighthouse\Events\RegisterDirectiveNamespaces;
 
 class SanitizerServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register any application services.
      *
      * @return void
      */
@@ -17,10 +19,39 @@ class SanitizerServiceProvider extends ServiceProvider
         $this->app->singleton('sanitizer', function ($app) {
             return new Factory;
         });
+    }
 
-        // Register make request command
-        $this->commands([
-            RequestMakeCommand::class,
-        ]);
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if ($this->isLighthouseAvailable()) {
+            $this->bootLighthouse();
+        }
+    }
+
+    /**
+     * Bootstrap Lighthouse related services.
+     *
+     * @return void
+     */
+    protected function bootLighthouse()
+    {
+        Event::listen(RegisterDirectiveNamespaces::class, function () {
+            return 'Elegant\Sanitizer\Laravel\Lighthouse';
+        });
+    }
+
+    /**
+     * Determines if the Lighthouse package is installed or not.
+     *
+     * @return bool
+     */
+    protected function isLighthouseAvailable()
+    {
+        return class_exists('Nuwave\Lighthouse\LighthouseServiceProvider');
     }
 }

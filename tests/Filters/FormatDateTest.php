@@ -14,10 +14,10 @@ class FormatDateTest extends TestCase
         $data = [
             'name' => '21/03/1983',
         ];
-        $rules = [
+        $filters = [
             'name' => 'format_date:d/m/Y, Y-m-d',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('1983-03-21', $data['name']);
     }
@@ -29,9 +29,9 @@ class FormatDateTest extends TestCase
         $data = [
             'name' => '21/03/1983',
         ];
-        $rules = [
+        $filters = [
             'name' => 'format_date:d/m/Y',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
     }
 }

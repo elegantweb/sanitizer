@@ -11,7 +11,7 @@ class Factory
 {
     /**
      * List of custom filters.
-     * 
+     *
      * @var array
      */
     protected $extensions = [];
@@ -20,12 +20,12 @@ class Factory
      * Create a new Sanitizer instance.
      *
      * @param array $data Data to be sanitized
-     * @param array $rules Filters to be applied to the given data
+     * @param array $filters Filters to be applied to the given data
      * @return Sanitizer
      */
-    public function make(array $data, array $rules)
+    public function make(array $data, array $filters)
     {
-        $sanitizer = new Sanitizer($data, $rules, $this->extensions);
+        $sanitizer = new Sanitizer($data, $filters, $this->extensions);
         $sanitizer->addExtensions($this->extensions);
         return $sanitizer;
     }

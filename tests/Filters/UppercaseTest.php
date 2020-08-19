@@ -14,10 +14,10 @@ class UppercaseTest extends TestCase
         $data = [
             'name' => 'HellO EverYboDy',
         ];
-        $rules = [
+        $filters = [
             'name' => 'uppercase',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('HELLO EVERYBODY', $data['name']);
     }
@@ -27,10 +27,10 @@ class UppercaseTest extends TestCase
         $data = [
             'name' => 'Τάχιστη αλώπηξ',
         ];
-        $rules = [
+        $filters = [
             'name' => 'uppercase',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('ΤΆΧΙΣΤΗ ΑΛΏΠΗΞ', $data['name']);
     }

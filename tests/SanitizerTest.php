@@ -14,10 +14,10 @@ class SanitizerTest extends TestCase
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
-        $rules = [
+        $filters = [
             'name' => 'trim|capitalize',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('Hello Everybody', $data['name']);
     }
@@ -27,10 +27,10 @@ class SanitizerTest extends TestCase
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
-        $rules = [
+        $filters = [
             'name' => '',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('  HellO EverYboDy   ', $data['name']);
     }
@@ -40,10 +40,10 @@ class SanitizerTest extends TestCase
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
-        $rules = [
+        $filters = [
             'name' => ['trim', 'capitalize'],
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('Hello Everybody', $data['name']);
     }
@@ -60,11 +60,11 @@ class SanitizerTest extends TestCase
                 'city'   => ' New York ',
             ],
         ];
-        $rules = [
+        $filters = [
             'name.*' => 'trim',
             'address.city' => 'trim',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $sanitized = [
             'name' => ['first' => 'John', 'last' => 'Doe'],
@@ -81,10 +81,10 @@ class SanitizerTest extends TestCase
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
-        $rules = [
+        $filters = [
             'name' => 'non-filter',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
     }
 
     public function test_should_only_sanitize_passed_data()
@@ -92,26 +92,26 @@ class SanitizerTest extends TestCase
         $data = [
             'title' => ' Hello WoRlD '
         ];
-        $rules = [
+        $filters = [
             'title' => 'trim',
             'name' => 'trim|escape'
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertArrayNotHasKey('name', $data);
         $this->assertArrayHasKey('title', $data);
         $this->assertEquals(1, count($data));
     }
 
-    public function test_closure_rule()
+    public function test_closure_filter()
     {
         $data = [
             'name' => ' Sina '
         ];
-        $rules = [
+        $filters = [
             'name' => ['trim', fn($value) => strtoupper($value)]
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('SINA', $data['name']);
     }
@@ -126,7 +126,7 @@ class SanitizerTest extends TestCase
                 ['name' => 'Ali', 'age' => 25]
             ]
         ];
-        $rules = [
+        $filters = [
             'users' => [function ($value) {
                 unset($value[0]);
                 return $value;
@@ -136,7 +136,7 @@ class SanitizerTest extends TestCase
                 return $value;
             }]
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $sanitized = [
             'users' => [

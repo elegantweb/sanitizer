@@ -14,10 +14,10 @@ class StripTagsTest extends TestCase
         $data = [
             'name' => '<p>Test paragraph.</p><!-- Comment --> <a href="#fragment">Other text</a>',
         ];
-        $rules = [
+        $filters = [
             'name' => 'strip_tags',
         ];
-        $data = $this->sanitize($data, $rules);
+        $data = $this->sanitize($data, $filters);
 
         $this->assertEquals('Test paragraph. Other text', $data['name']);
     }
