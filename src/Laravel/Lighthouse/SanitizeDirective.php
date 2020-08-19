@@ -35,12 +35,12 @@ GRAPHQL;
     {
         $resolver = $fieldValue->getResolver();
 
+        $wrappedResolver = function ($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
+            return $resolver($root, $this->sanitize($args, $resolveInfo), $context, $resolveInfo);
+        };
+
         return $next(
-            $fieldValue->setResolver(
-                function ($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
-                    return $resolver($root, $this->sanitize($args, $resolveInfo), $context, $resolveInfo);
-                }
-            )
+            $fieldValue->setResolver($wrappedResolver)
         );
     }
 
@@ -50,7 +50,13 @@ GRAPHQL;
 
         $filters = $this->gatherFiltersFromProviders($argumentSet, $argumentSet->directives);
 
-        return (new Sanitizer($args, $filters))->sanitize();
+        $args = (new Sanitizer($args, $filters))->sanitize();
+
+        // apply value to everywhere!
+        foreach ($argumentSet->arguments as $name => $argument)
+            $argument->value = $args[$name];
+
+        return $args;
     }
 
     public function gatherFiltersFromProviders($value, Collection $directives): array
