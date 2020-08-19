@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Filters;
+
+use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
 
 class EscapeHTMLTest extends TestCase
@@ -15,7 +18,7 @@ class EscapeHTMLTest extends TestCase
             'name' => 'escape',
         ];
         $data = $this->sanitize($data, $rules);
-        
+
         $this->assertEquals('Hello! Unicode chars as Ñ are not escaped. Neither is content inside HTML tags', $data['name']);
     }
 }

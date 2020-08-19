@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Filters;
+
+use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
 
 class CastTest extends TestCase
@@ -115,7 +118,7 @@ class CastTest extends TestCase
         ];
         $encodedData = json_encode($data);
         $results = $this->sanitize(['var' => $encodedData], ['var' => 'cast:collection']);
-        
+
         $this->assertInstanceOf('\Illuminate\Support\Collection', $results['var']);
         $this->assertEquals('Name', $results['var']->first());
     }

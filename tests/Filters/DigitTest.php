@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Filters;
+
+use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
 
 class DigitTest extends TestCase
@@ -28,7 +31,7 @@ class DigitTest extends TestCase
             'name' => 'digit',
         ];
         $data = $this->sanitize($data, $rules);
-        
+
         $this->assertEquals('', $data['name']);
     }
 }

@@ -1,7 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+namespace Elegant\Sanitizer\Tests;
+
+use Elegant\Sanitizer\Tests\Fixtures\Filters\CustomFilter;
 use Elegant\Sanitizer\Laravel\Factory;
+use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
@@ -53,7 +56,7 @@ class FactoryTest extends TestCase
             'name' => 'trim',
         ];
         $newData = $factory->make($data, $rules)->sanitize();
-        
+
         $this->assertEquals(sha1('TEST'), $newData['name']);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Fixtures\Filters;
+
 use Elegant\Sanitizer\Contracts\Filter;
 
 class CustomFilter implements Filter

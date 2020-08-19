@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Filters;
+
+use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
 
 class StripTagsTest extends TestCase
@@ -15,7 +18,7 @@ class StripTagsTest extends TestCase
             'name' => 'strip_tags',
         ];
         $data = $this->sanitize($data, $rules);
-        
+
         $this->assertEquals('Test paragraph. Other text', $data['name']);
     }
 }

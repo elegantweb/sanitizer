@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Filters;
+
+use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
 
 class FormatDateTest extends TestCase
@@ -22,7 +25,7 @@ class FormatDateTest extends TestCase
     public function test_requires_two_arguments()
     {
         $this->expectException(\InvalidArgumentException::class);
-        
+
         $data = [
             'name' => '21/03/1983',
         ];

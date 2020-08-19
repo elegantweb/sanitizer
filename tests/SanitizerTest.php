@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests;
+
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class SanitizerTest extends TestCase
@@ -111,5 +114,37 @@ class SanitizerTest extends TestCase
         $data = $this->sanitize($data, $rules);
 
         $this->assertEquals('SINA', $data['name']);
+    }
+
+    public function test_removed_array_elements_are_persistent()
+    {
+        $actual = null;
+
+        $data = [
+            'users' => [
+                ['name' => 'Mohammad', 'age' => 32],
+                ['name' => 'Ali', 'age' => 25]
+            ]
+        ];
+        $rules = [
+            'users' => [function ($value) {
+                unset($value[0]);
+                return $value;
+            }],
+            'users.*.age' => [function ($value) use (&$actual) {
+                $actual[] = $value;
+                return $value;
+            }]
+        ];
+        $data = $this->sanitize($data, $rules);
+
+        $sanitized = [
+            'users' => [
+                1 => ['name' => 'Ali', 'age' => 25]
+            ]
+        ];
+
+        $this->assertEquals(['25'], $actual);
+        $this->assertEquals($sanitized, $data);
     }
 }

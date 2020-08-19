@@ -1,5 +1,8 @@
 <?php
 
+namespace Elegant\Sanitizer\Tests\Filters;
+
+use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
 
 class LowercaseTest extends TestCase
@@ -28,7 +31,7 @@ class LowercaseTest extends TestCase
             'name' => 'lowercase',
         ];
         $data = $this->sanitize($data, $rules);
-        
+
         $this->assertEquals('τάχιστη αλώπηξ', $data['name']);
     }
 }
