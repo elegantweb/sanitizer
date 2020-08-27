@@ -27,7 +27,7 @@ class Sanitizer
     protected $filters;
 
     /**
-     * Available filters as $name => $classPath.
+     * Available filters as [name => classPath].
      *
      * @var array
      */
@@ -120,7 +120,7 @@ class Sanitizer
 
         if (strpos($filter, ':') !== false) {
             list($name, $options) = explode(':', $filter, 2);
-            $options = array_map('trim', explode(',', $options));
+            $options = str_getcsv($options);
         } else {
             $name = $filter;
             $options = [];
@@ -135,7 +135,7 @@ class Sanitizer
     /**
      * Apply the given filter to the value.
      *
-     * @param string|Closure $filter
+     * @param array|Closure $filter
      * @param mixed $value
      * @return mixed
      */
@@ -167,7 +167,7 @@ class Sanitizer
     /**
      * Apply the given filters to the value.
      *
-     * @param string|Closure $filter
+     * @param array $filters
      * @param mixed $value
      * @return mixed
      */

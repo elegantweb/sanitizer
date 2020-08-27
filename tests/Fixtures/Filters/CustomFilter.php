@@ -6,7 +6,7 @@ use Elegant\Sanitizer\Contracts\Filter;
 
 class CustomFilter implements Filter
 {
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
         return $value . $value;
     }

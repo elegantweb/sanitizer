@@ -3,6 +3,7 @@
 namespace Elegant\Sanitizer\Tests;
 
 use InvalidArgumentException;
+use Elegant\Sanitizer\Laravel\Factory;
 use PHPUnit\Framework\TestCase;
 
 class SanitizerTest extends TestCase
@@ -109,7 +110,7 @@ class SanitizerTest extends TestCase
             'name' => ' Sina '
         ];
         $filters = [
-            'name' => ['trim', fn($value) => strtoupper($value)]
+            'name' => ['trim', fn ($value) => strtoupper($value)]
         ];
         $data = $this->sanitize($data, $filters);
 
@@ -145,6 +146,28 @@ class SanitizerTest extends TestCase
         ];
 
         $this->assertEquals(['25'], $actual);
+        $this->assertEquals($sanitized, $data);
+    }
+
+    public function test_we_can_use_escape_in_filter_options()
+    {
+        $factory = new Factory;
+        $factory->extend('explode', function ($value, array $options = []) {
+            return array_map('trim', explode($options[0], $value));
+        });
+
+        $data = [
+            'tags' => 'tag1, tag2, tag3'
+        ];
+        $filters = [
+            'tags' => 'explode:","'
+        ];
+        $data = $factory->make($data, $filters)->sanitize();
+
+        $sanitized = [
+            'tags' => ['tag1', 'tag2', 'tag3']
+        ];
+
         $this->assertEquals($sanitized, $data);
     }
 }
