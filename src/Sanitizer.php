@@ -188,11 +188,9 @@ class Sanitizer
     {
         $sanitized = $this->data;
 
-        foreach ($this->filters as $attr => $filters) {
-            if (Arr::has($sanitized, $attr)) {
+        foreach ($this->filters as $attr => $filters)
+            if (Arr::has($sanitized, $attr))
                 Arr::set($sanitized, $attr, $this->applyFilters($filters, Arr::get($sanitized, $attr)));
-            }
-        }
 
         return $sanitized;
     }
