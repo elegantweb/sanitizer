@@ -19,13 +19,13 @@ use Elegant\Sanitizer\Sanitizer;
 $data = [
     'name' => ' sina ',
     'birthdate' => '06/25/1980',
-    'email' => 'shAriFZadeSina@gmail.com',
+    'email' => 'JOHn@DoE.com',
     'json' => '{"name":"value"}',
 ];
 
 $filters = [
     'name' => 'trim|capitalize',
-    'birthdate' => 'trim|trim|format_date:"m/d/Y","F j, Y"',
+    'birthdate' => 'trim|format_date:"m/d/Y","F j, Y"',
     'email' => ['trim', 'lowercase'],
     'json' => 'cast:array',
 ];
@@ -40,6 +40,9 @@ Will result in:
 ``` php
 [
     'name' => 'Sina',
+    'birthdate' => 'June 25, 1980',
+    'email' => 'john@doe.com',
+    'jsom' => ['name' => 'value'],
 ];
 ```
 
