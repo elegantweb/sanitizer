@@ -18,10 +18,16 @@ use Elegant\Sanitizer\Sanitizer;
 
 $data = [
     'name' => ' sina ',
+    'birthdate' => '06/25/1980',
+    'email' => 'shAriFZadeSina@gmail.com',
+    'json' => '{"name":"value"}',
 ];
 
 $filters = [
     'name' => 'trim|capitalize',
+    'birthdate' => 'trim|trim|format_date:"m/d/Y","F j, Y"',
+    'email' => ['trim', 'lowercase'],
+    'json' => 'cast:array',
 ];
 
 $sanitizer = new Sanitizer($data, $filters);
@@ -99,7 +105,7 @@ $filters = [
     'password' => fn ($value, array $options = []) => sha1($value),
 ];
 
-$sanitize = new Sanitize($data, $filters);
+$sanitize = new Sanitizer($data, $filters);
 ```
 
 ### Laravel
