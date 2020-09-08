@@ -119,6 +119,6 @@ You can easily extend the Sanitizer library by adding your own custom filters, j
 \Sanitizer::extend($filterName, $closureOrClassName);
 ```
 
-## Alternatives
+## Inspiration
 
 - [WAAVI Sanitizer](https://github.com/Waavi/Sanitizer)
