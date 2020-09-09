@@ -1,6 +1,6 @@
 {
     "name": "elegantweb/sanitizer",
-    "description": "Data sanitizer and Laravel form requests with input sanitation.",
+    "description": "Sanitization library for PHP and the Laravel framework.",
     "keywords": ["laravel", "sanitation", "input sanitation", "input sanitizer", "input", "transform input", "input filter"],
     "license": "MIT",
     "authors": [
