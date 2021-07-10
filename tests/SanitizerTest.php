@@ -170,4 +170,18 @@ class SanitizerTest extends TestCase
 
         $this->assertEquals($sanitized, $data);
     }
+
+    public function test_string_that_only_contains_whitespace_will_be_converted_to_null_with_trim_and_empty_string_to_null_filters()
+    {
+        $data = [
+            'title' => "  \n "
+        ];
+        $filters = [
+            'title' => 'trim|empty_string_to_null',
+        ];
+        $data = $this->sanitize($data, $filters);
+
+        $this->assertArrayHasKey('title', $data);
+        $this->assertNull($data['title']);
+    }
 }

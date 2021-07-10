@@ -10,6 +10,7 @@ class Capitalize implements Filter
      * Capitalize the given string.
      *
      * @param mixed $value
+     * @param array $options
      * @return mixed
      */
     public function apply($value, $options = [])

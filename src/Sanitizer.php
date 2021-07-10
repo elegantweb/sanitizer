@@ -41,6 +41,7 @@ class Sanitizer
         'trim' => \Elegant\Sanitizer\Filters\Trim::class,
         'strip_tags' => \Elegant\Sanitizer\Filters\StripTags::class,
         'digit' => \Elegant\Sanitizer\Filters\Digit::class,
+        'empty_string_to_null' => \Elegant\Sanitizer\Filters\EmptyStringToNull::class,
     ];
 
     /**
