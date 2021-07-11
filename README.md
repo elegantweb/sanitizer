@@ -76,8 +76,8 @@ class MyAwesomeRequest extends Request
 
 #### Optional
 
-If you are planning to use sanitizer for all your HTTP requests, you can optionally disable
-Default Laravel `TrimStrings` and `ConvertEmptyStringsToNull` from your HTTP kernel.
+If you are planning to use sanitizer for all of your HTTP requests, you can optionally disable
+Laravel's `TrimStrings` and `ConvertEmptyStringsToNull` middleware from your HTTP kernel.
 
 ```php
 protected $middleware = [
