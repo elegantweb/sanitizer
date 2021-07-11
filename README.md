@@ -25,6 +25,7 @@ $data = [
 ];
 
 $filters = [
+    'title' => 'trim|empty_string_to_null',
     'name' => 'trim|empty_string_to_null|capitalize',
     'birth_date' => 'trim|empty_string_to_null|format_date:"m/d/Y","F j, Y"',
     'email' => ['trim', 'empty_string_to_null', 'lowercase'],
