@@ -18,14 +18,14 @@ use Elegant\Sanitizer\Sanitizer;
 
 $data = [
     'name' => ' sina ',
-    'birthdate' => '06/25/1980',
+    'birth_date' => '06/25/1980',
     'email' => 'JOHn@DoE.com',
     'json' => '{"name":"value"}',
 ];
 
 $filters = [
     'name' => 'trim|capitalize',
-    'birthdate' => 'trim|format_date:"m/d/Y","F j, Y"',
+    'birth_date' => 'trim|format_date:"m/d/Y","F j, Y"',
     'email' => ['trim', 'lowercase'],
     'json' => 'cast:array',
 ];
@@ -40,9 +40,9 @@ Will result in:
 ``` php
 [
     'name' => 'Sina',
-    'birthdate' => 'June 25, 1980',
+    'birth_date' => 'June 25, 1980',
     'email' => 'john@doe.com',
-    'jsom' => ['name' => 'value'],
+    'json' => ['name' => 'value'],
 ];
 ```
 
@@ -81,6 +81,7 @@ The following filters are available out of the box:
  Filter                   | Description
 :-------------------------|:-------------------------
  **trim**                 | Trims a string
+ **empty_string_to_null** | If the given string is empty set it to `null`
  **escape**               | Escapes HTML and special chars using php's filter_var
  **lowercase**            | Converts the given string to all lowercase
  **uppercase**            | Converts the given string to all uppercase
@@ -89,7 +90,6 @@ The following filters are available out of the box:
  **format_date**          | Always takes two arguments, the date's given format and the target format, following DateTime notation.
  **strip_tags**           | Strip HTML and PHP tags using php's strip_tags
  **digit**                | Get only digit characters from the string
- **empty_string_to_null** | If the given string is empty set it to `null`
 
 ## Custom Filters
 
@@ -118,6 +118,28 @@ You can easily extend the Sanitizer library by adding your own custom filters, j
 
 ``` php
 \Sanitizer::extend($filterName, $closureOrClassName);
+```
+
+#### Optional
+
+If you are planning to use sanitizer for all your HTTP requests, you can optionally disable
+Default Laravel `TrimStrings` and `ConvertEmptyStringsToNull` from your HTTP kernel.
+
+```php
+protected $middleware = [
+    [...]
+    // \App\Http\Middleware\TrimStrings::class,
+    // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+    [...]
+];
+```
+
+Instead, you can use `trim` and `empty_string_to_null` filters.
+
+```php
+$filters = [
+    'some_string_param' => 'trim|empty_string_to_null',
+];
 ```
 
 ## Inspiration
