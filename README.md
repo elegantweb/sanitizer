@@ -17,6 +17,7 @@ composer require elegantweb/sanitizer
 use Elegant\Sanitizer\Sanitizer;
 
 $data = [
+    'title' => ' ',
     'name' => ' sina ',
     'birth_date' => '06/25/1980',
     'email' => 'JOHn@DoE.com',
@@ -24,9 +25,9 @@ $data = [
 ];
 
 $filters = [
-    'name' => 'trim|capitalize',
-    'birth_date' => 'trim|format_date:"m/d/Y","F j, Y"',
-    'email' => ['trim', 'lowercase'],
+    'name' => 'trim|empty_string_to_null|capitalize',
+    'birth_date' => 'trim|empty_string_to_null|format_date:"m/d/Y","F j, Y"',
+    'email' => ['trim', 'empty_string_to_null', 'lowercase'],
     'json' => 'cast:array',
 ];
 
@@ -39,6 +40,7 @@ Will result in:
 
 ``` php
 [
+    'title' => null,
     'name' => 'Sina',
     'birth_date' => 'June 25, 1980',
     'email' => 'john@doe.com',
