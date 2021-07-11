@@ -4,6 +4,7 @@ namespace Elegant\Sanitizer\Tests;
 
 use InvalidArgumentException;
 use Elegant\Sanitizer\Laravel\Factory;
+use Elegant\Sanitizer\Tests\Fixtures\Filters\CustomFilter;
 use PHPUnit\Framework\TestCase;
 
 class SanitizerTest extends TestCase
@@ -107,14 +108,33 @@ class SanitizerTest extends TestCase
     public function test_closure_filter()
     {
         $data = [
-            'name' => ' Sina '
+            'title' => ' Hello WoRlD ',
+            'name' => ' Sina ',
         ];
         $filters = [
+            'title' => fn ($value) => trim(strtoupper($value)),
             'name' => ['trim', fn ($value) => strtoupper($value)]
         ];
         $data = $this->sanitize($data, $filters);
 
+        $this->assertEquals('HELLO WORLD', $data['title']);
         $this->assertEquals('SINA', $data['name']);
+    }
+
+    public function test_class_filter()
+    {
+        $data = [
+            'title' => ' HELLO ',
+            'name' => ' SINA ',
+        ];
+        $filters = [
+            'title' => CustomFilter::class,
+            'name' => ['trim', CustomFilter::class]
+        ];
+        $data = $this->sanitize($data, $filters);
+
+        $this->assertEquals('HELLOHELLO', $data['title']);
+        $this->assertEquals('SINASINA', $data['name']);
     }
 
     public function test_removed_array_elements_are_persistent()

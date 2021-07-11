@@ -91,7 +91,7 @@ class Sanitizer
     /**
      * Parse a filter.
      *
-     * @param string|Closure $filter
+     * @param string|ClosureValidationRule $filter
      * @throws InvalidArgumentException for unsupported filter type
      * @return array|Closure
      */
@@ -142,6 +142,7 @@ class Sanitizer
      */
     protected function applyFilter($filter, $value)
     {
+        // Our filters can be closure, so we first check it
         if ($filter instanceof Closure) {
             return call_user_func($filter, $value);
         }
@@ -149,6 +150,13 @@ class Sanitizer
         $name = $filter['name'];
         $options = $filter['options'];
 
+        // If the filter name is a class
+        if (class_exists($name) and in_array(Filter::class, class_implements($name))) {
+            return (new $name)->apply($value, $options);
+        }
+
+        // If the filter name, is not a class, then it should be inside availableFilters array
+        // assigned to the filter function/class
         // If the filter does not exist, throw an Exception:
         if (!isset($this->availableFilters[$name])) {
             throw new InvalidArgumentException("Filter [$name] not found.");

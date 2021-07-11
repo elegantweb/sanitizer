@@ -8,6 +8,6 @@ class CustomFilter implements Filter
 {
     public function apply($value, array $options = [])
     {
-        return $value . $value;
+        return trim($value) . trim($value);
     }
 }
