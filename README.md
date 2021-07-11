@@ -88,11 +88,11 @@ protected $middleware = [
 ];
 ```
 
-Instead, you can use `trim` and `empty_string_to_null` filters.
+Then, instead, you can use `trim` and `empty_string_to_null` filters:
 
 ```php
 $filters = [
-    'some_string_param' => 'trim|empty_string_to_null',
+    'some_string_parameter' => 'trim|empty_string_to_null',
 ];
 ```
 
