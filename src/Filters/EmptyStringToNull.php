@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Elegant\Sanitizer\Filters;
-
 
 use Elegant\Sanitizer\Contracts\Filter;
 
@@ -10,11 +8,10 @@ class EmptyStringToNull implements Filter
 {
 
     /**
-     * If the given string is empty set it to null
+     * If the given string is empty set it to null.
      *
-     * @param  mixed  $value
-     * @param  array  $options
-     *
+     * @param mixed $value
+     * @param array $options
      * @return mixed
      */
     public function apply($value, array $options = [])

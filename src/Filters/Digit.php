@@ -13,7 +13,7 @@ class Digit implements Filter
      * @param array $options
      * @return mixed
      */
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
         return preg_replace('/[^0-9]/si', '', $value);
     }

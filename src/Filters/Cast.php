@@ -14,7 +14,7 @@ class Cast implements Filter
      * @param array $options
      * @return mixed
      */
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
         $type = isset($options[0]) ? $options[0] : null;
         switch ($type) {

@@ -14,7 +14,7 @@ class FormatDate implements Filter
      * @param array $options
      * @return mixed
      */
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
         if (!$value) {
             return $value;

@@ -13,7 +13,7 @@ class Lowercase implements Filter
      * @param array $options
      * @return mixed
      */
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
         return is_string($value) ? mb_strtolower($value, 'UTF-8') : $value;
     }

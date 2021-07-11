@@ -13,7 +13,7 @@ class Trim implements Filter
      * @param array $options
      * @return mixed
      */
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
         return is_string($value) ? trim($value) : $value;
     }

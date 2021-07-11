@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Elegant\Sanitizer\Tests\Filters;
-
 
 use Elegant\Sanitizer\Tests\SanitizesData;
 use PHPUnit\Framework\TestCase;
