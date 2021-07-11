@@ -74,6 +74,28 @@ class MyAwesomeRequest extends Request
 }
 ```
 
+#### Optional
+
+If you are planning to use sanitizer for all your HTTP requests, you can optionally disable
+Default Laravel `TrimStrings` and `ConvertEmptyStringsToNull` from your HTTP kernel.
+
+```php
+protected $middleware = [
+    [...]
+    // \App\Http\Middleware\TrimStrings::class,
+    // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+    [...]
+];
+```
+
+Instead, you can use `trim` and `empty_string_to_null` filters.
+
+```php
+$filters = [
+    'some_string_param' => 'trim|empty_string_to_null',
+];
+```
+
 ## Available Filters
 
 The following filters are available out of the box:
@@ -118,28 +140,6 @@ You can easily extend the Sanitizer library by adding your own custom filters, j
 
 ``` php
 \Sanitizer::extend($filterName, $closureOrClassName);
-```
-
-#### Optional
-
-If you are planning to use sanitizer for all your HTTP requests, you can optionally disable
-Default Laravel `TrimStrings` and `ConvertEmptyStringsToNull` from your HTTP kernel.
-
-```php
-protected $middleware = [
-    [...]
-    // \App\Http\Middleware\TrimStrings::class,
-    // \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-    [...]
-];
-```
-
-Instead, you can use `trim` and `empty_string_to_null` filters.
-
-```php
-$filters = [
-    'some_string_param' => 'trim|empty_string_to_null',
-];
 ```
 
 ## Inspiration
