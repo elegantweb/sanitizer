@@ -78,17 +78,18 @@ class MyAwesomeRequest extends Request
 
 The following filters are available out of the box:
 
- Filter               | Description
-:---------------------|:-------------------------
- **trim**             | Trims a string
- **escape**           | Escapes HTML and special chars using php's filter_var
- **lowercase**        | Converts the given string to all lowercase
- **uppercase**        | Converts the given string to all uppercase
- **capitalize**       | Capitalize a string
- **cast**             | Casts a variable into the given type. Options are: integer, float, string, boolean, object, array and Laravel Collection.
- **format_date**      | Always takes two arguments, the date's given format and the target format, following DateTime notation.
- **strip_tags**       | Strip HTML and PHP tags using php's strip_tags
- **digit**            | Get only digit characters from the string
+ Filter                   | Description
+:-------------------------|:-------------------------
+ **trim**                 | Trims a string
+ **escape**               | Escapes HTML and special chars using php's filter_var
+ **lowercase**            | Converts the given string to all lowercase
+ **uppercase**            | Converts the given string to all uppercase
+ **capitalize**           | Capitalize a string
+ **cast**                 | Casts a variable into the given type. Options are: integer, float, string, boolean, object, array and Laravel Collection.
+ **format_date**          | Always takes two arguments, the date's given format and the target format, following DateTime notation.
+ **strip_tags**           | Strip HTML and PHP tags using php's strip_tags
+ **digit**                | Get only digit characters from the string
+ **empty_string_to_null** | If the given string is empty set it to `null`
 
 ## Custom Filters
 

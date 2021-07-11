@@ -10,6 +10,7 @@ class Uppercase implements Filter
      * Uppercase the given string.
      *
      * @param mixed $value
+     * @param array $options
      * @return mixed
      */
     public function apply($value, $options = [])
