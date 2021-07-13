@@ -107,9 +107,9 @@ class Sanitizer
     }
 
     /**
-     * Parse a filter string formatted as filterName:option1, option2 into an array formatted as [name => filterName, options => [option1, option2]]
+     * Parse a filter string formatted as 'filterName:option1,option2' into an array formatted as [name => filterName, options => [option1, option2]].
      *
-     * @param string $filter Formatted as 'filterName:option1, option2' or just 'filterName'
+     * @param string $filter Formatted as 'filterName:option1,option2' or just 'filterName'
      * @throws InvalidArgumentException for empty filter string
      * @return array Formatted as [name => filterName, options => [option1, option2]]
      */
@@ -142,7 +142,7 @@ class Sanitizer
      */
     protected function applyFilter($filter, $value)
     {
-        // Our filters can be closure, so we first check it
+        // Our filters can be a closure, so we first check it
         if ($filter instanceof Closure) {
             return call_user_func($filter, $value);
         }
