@@ -115,6 +115,7 @@ The following filters are available out of the box:
  **format_date**          | Always takes two arguments, the date's given format and the target format, following DateTime notation.
  **strip_tags**           | Strip HTML and PHP tags using php's strip_tags
  **digit**                | Get only digit characters from the string
+ **boolean**              | If the given value is not a boolean set it to `null`
 
 ## Custom Filters
 

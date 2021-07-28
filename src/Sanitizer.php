@@ -42,6 +42,7 @@ class Sanitizer
         'strip_tags' => \Elegant\Sanitizer\Filters\StripTags::class,
         'digit' => \Elegant\Sanitizer\Filters\Digit::class,
         'empty_string_to_null' => \Elegant\Sanitizer\Filters\EmptyStringToNull::class,
+        'boolean' => \Elegant\Sanitizer\Filters\Boolean::class,
     ];
 
     /**
