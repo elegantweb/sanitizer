@@ -16,6 +16,10 @@ class Cast implements Filter
      */
     public function apply($value, array $options = [])
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         $type = isset($options[0]) ? $options[0] : null;
         switch ($type) {
             case 'int':
