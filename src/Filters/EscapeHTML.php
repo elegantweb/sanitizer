@@ -15,6 +15,6 @@ class EscapeHTML implements Filter
      */
     public function apply($value, array $options = [])
     {
-        return is_string($value) ? htmlspecialchars($value) : $value;
+        return is_string($value) ? htmlspecialchars(strip_tags($value)) : $value;
     }
 }
