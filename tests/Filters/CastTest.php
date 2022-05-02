@@ -122,4 +122,11 @@ class CastTest extends TestCase
         $this->assertInstanceOf('\Illuminate\Support\Collection', $results['var']);
         $this->assertEquals('Name', $results['var']->first());
     }
+    
+    public function test_does_not_cast_null()
+    {
+        $results = $this->sanitize(['var' => null], ['var' => 'cast:integer']);
+
+        $this->assertNull($results['var']);
+    }
 }
