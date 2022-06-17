@@ -57,7 +57,7 @@ In Laravel, you can use the Sanitizer through the Facade:
 $newData = \Sanitizer::make($data, $filters)->sanitize();
 ```
 
-You may also Sanitize input in your own FormRequests by using the SanitizesInput trait, and adding a filters method that returns the filters that you want applied to the input.
+You may also Sanitize input in your own FormRequests by using the SanitizesInput trait, and adding a `filters` method that returns the filters that you want applied to the input.
 
 ``` php
 namespace App\Http\Requests;
