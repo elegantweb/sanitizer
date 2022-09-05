@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationRuleParser;
 use Illuminate\Validation\ClosureValidationRule;
 use Elegant\Sanitizer\Contracts\Filter;
+use Elegant\Sanitizer\Contracts\DataAwareFilter;
 
 class Sanitizer
 {
@@ -120,7 +121,7 @@ class Sanitizer
         }
 
         if (strpos($filter, ':') !== false) {
-            list($name, $options) = explode(':', $filter, 2);
+            [$name, $options] = explode(':', $filter, 2);
             $options = str_getcsv($options);
         } else {
             $name = $filter;
@@ -167,7 +168,11 @@ class Sanitizer
         if ($filter instanceof Closure) {
             return call_user_func_array($filter, [$value, $options]);
         } elseif (in_array(Filter::class, class_implements($filter))) {
-            return (new $filter)->apply($value, $options);
+            $instance = new $filter;
+            if ($instance instanceof DataAwareFilter) {
+                $instance->setData($this->data);
+            }
+            return $instance->apply($value, $options);
         } else {
             throw new UnexpectedValueException("Invalid filter [$name] must be a Closure or a class implementing the Elegant\Sanitizer\Contracts\Filter interface.");
         }
