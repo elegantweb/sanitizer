@@ -1,7 +1,7 @@
 # sanitizer
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/elegantweb/sanitizer?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elegantweb/sanitizer/test?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/elegantweb/sanitizer/test.yml?style=flat-square)
 
 > Sanitization library for PHP and the Laravel framework.
 
