@@ -43,6 +43,7 @@ class Sanitizer
         'strip_tags' => \Elegant\Sanitizer\Filters\StripTags::class,
         'digit' => \Elegant\Sanitizer\Filters\Digit::class,
         'empty_string_to_null' => \Elegant\Sanitizer\Filters\EmptyStringToNull::class,
+        'enum' => \Elegant\Sanitizer\Filters\EnumFilter::class,
     ];
 
     /**
@@ -169,9 +170,7 @@ class Sanitizer
             return call_user_func_array($filter, [$value, $options]);
         } elseif (in_array(Filter::class, class_implements($filter))) {
             $instance = new $filter;
-            if ($instance instanceof DataAwareFilter) {
-                $instance->setData($this->data);
-            }
+            if ($instance instanceof DataAwareFilter) $instance->setData($this->data);
             return $instance->apply($value, $options);
         } else {
             throw new UnexpectedValueException("Invalid filter [$name] must be a Closure or a class implementing the Elegant\Sanitizer\Contracts\Filter interface.");

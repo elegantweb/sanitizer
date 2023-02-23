@@ -15,6 +15,7 @@ composer require elegantweb/sanitizer
 
 ``` php
 use Elegant\Sanitizer\Sanitizer;
+use Elegant\Sanitizer\Filters\Enum;
 
 $data = [
     'title' => ' ',
@@ -22,6 +23,7 @@ $data = [
     'birth_date' => '06/25/1980',
     'email' => 'JOHn@DoE.com',
     'json' => '{"name":"value"}',
+    'enum' => 'H',
 ];
 
 $filters = [
@@ -30,6 +32,7 @@ $filters = [
     'birth_date' => 'trim|empty_string_to_null|format_date:"m/d/Y","F j, Y"',
     'email' => ['trim', 'empty_string_to_null', 'lowercase'],
     'json' => 'cast:array',
+    'enum' => ['trim', new Enum(BackedEnum::class)],
 ];
 
 $sanitizer = new Sanitizer($data, $filters);
@@ -46,6 +49,7 @@ Will result in:
     'birth_date' => 'June 25, 1980',
     'email' => 'john@doe.com',
     'json' => ['name' => 'value'],
+    'enum' => BackedEnum::Hearts,
 ];
 ```
 
@@ -105,16 +109,17 @@ The following filters are available out of the box:
 
  Filter                   | Description
 :-------------------------|:-------------------------
- **trim**                 | Trims a string
+ **trim**                 | Trims the given string
  **empty_string_to_null** | If the given string is empty set it to `null`
- **escape**               | Escapes HTML and special chars using php's filter_var
+ **escape**               | Removes HTML tags and encodes special characters of the given string
  **lowercase**            | Converts the given string to all lowercase
  **uppercase**            | Converts the given string to all uppercase
- **capitalize**           | Capitalize a string
- **cast**                 | Casts a variable into the given type. Options are: integer, float, string, boolean, object, array and Laravel Collection.
- **format_date**          | Always takes two arguments, the date's given format and the target format, following DateTime notation.
- **strip_tags**           | Strip HTML and PHP tags using php's strip_tags
- **digit**                | Get only digit characters from the string
+ **capitalize**           | Capitalizes the given string
+ **cast**                 | Casts the given value into the given type. Options are: integer, float, string, boolean, object, array and Laravel Collection.
+ **format_date**          | Always takes two arguments, the given date's format and the target format, following DateTime notation.
+ **strip_tags**           | Strips HTML and PHP tags from the given string
+ **digit**                | Removes all characters except digits from the given string
+ **enum**                 | Casts the given value to its corresponding enum type
 
 ## Custom Filters
 
