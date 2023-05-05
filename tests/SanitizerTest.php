@@ -2,6 +2,9 @@
 
 namespace Elegant\Sanitizer\Tests;
 
+use Elegant\Sanitizer\Tests\Fixtures\Filters\CustomFilterWithDependency;
+use Elegant\Sanitizer\Tests\Fixtures\Filters\Dependency;
+use Illuminate\Container\Container;
 use InvalidArgumentException;
 use Elegant\Sanitizer\Laravel\Factory;
 use Elegant\Sanitizer\Tests\Fixtures\Filters\CustomFilter;
@@ -203,5 +206,22 @@ class SanitizerTest extends TestCase
 
         $this->assertArrayHasKey('title', $data);
         $this->assertNull($data['title']);
+    }
+
+    public function test_filter_from_container()
+    {
+        $container = Container::getInstance();
+        $dependency = new Dependency();
+        $container->instance(Dependency::class, $dependency);
+
+        $data = [
+            'name' => 'test',
+        ];
+        $filters = [
+            'name' => [CustomFilterWithDependency::class],
+        ];
+        $this->sanitize($data, $filters);
+
+        $this->assertTrue($dependency->isCalled());
     }
 }
