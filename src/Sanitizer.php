@@ -89,8 +89,16 @@ class Sanitizer
         $rawRules = (new ValidationRuleParser($this->data))->explode($filters);
 
         foreach ($rawRules->rules as $attribute => $attributeRules) {
-            foreach (array_filter($attributeRules) as $attributeRule) {
-                $parsed[$attribute][] = $this->parseFilter($attributeRule);
+            if(strpos($attribute, ',') !== false) {
+                foreach(array_filter(explode(',', $attribute)) as $splitedAttribute) {
+                    foreach (array_filter($attributeRules) as $attributeRule) {
+                        $parsed[trim($splitedAttribute)][] = $this->parseFilter($attributeRule);
+                    }
+                }
+            } else {
+                foreach (array_filter($attributeRules) as $attributeRule) {
+                    $parsed[$attribute][] = $this->parseFilter($attributeRule);
+                }
             }
         }
 

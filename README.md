@@ -103,6 +103,27 @@ $filters = [
 ];
 ```
 
+#### Multiple attributes on the same line
+
+Avoid multiple lines of code for the same filter by simply listing the attributes separated by `,`:
+
+``` php
+use Elegant\Sanitizer\Sanitizer;
+
+$data = [
+    'name' => ' sina ',
+    'email' => 'JOHn@DoE.com',
+];
+
+$filters = [
+    'name,email' => 'trim|escape|lowercase',
+];
+
+$sanitizer = new Sanitizer($data, $filters);
+
+var_dump($sanitizer->sanitize());
+```
+
 ## Available Filters
 
 The following filters are available out of the box:
