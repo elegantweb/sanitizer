@@ -130,7 +130,7 @@ class Sanitizer
 
         if (strpos($filter, ':') !== false) {
             [$name, $options] = explode(':', $filter, 2);
-            $options = str_getcsv($options);
+            $options = str_getcsv($options, ',', '"', '\\');
         } else {
             $name = $filter;
             $options = [];
